@@ -4,7 +4,6 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-
     },
     email: {
         type: String,
@@ -17,7 +16,7 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     role: {
-        type: mongoose.schema.types.objectid,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Role'
     }
 })

@@ -1,8 +1,8 @@
 import  { config }  from 'dotenv';
 config()
-import * as path from 'path';
 import express from 'express';
 import Database from './config/db.config.js';
+import userRoutes from './routes/user.route.js'
 
 
 const app = express();
@@ -14,9 +14,9 @@ db.connectionDb();
 
 app.use(express.json());
 
+app.use('/api/auth', userRoutes);
 
-
-const port = 3333;
+const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });
