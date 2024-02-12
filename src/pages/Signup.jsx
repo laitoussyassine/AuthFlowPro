@@ -1,5 +1,4 @@
 import TitleSign from '../components/fieldsComponents/TitleSign.jsx';
-import React from 'react';
 import InputField from '../components/fieldsComponents/InputField.jsx';
 import LabelField from '../components/fieldsComponents/LabelField.jsx';
 import SubmitButton from '../components/fieldsComponents/SubmitButton.jsx';
@@ -9,7 +8,7 @@ const Signup = () => {
   return (
     <>
         <div className='flex flex-col items-center lg:my-20 my-10 '>
-          <div className='shadow-slate-600 shadow-lg py-7 px-9 rounded-lg'>
+          <div className='shadow-slate-600 shadow-md py-7 px-9 rounded-xl'>
             <form>
               <TitleSign className={'text-lg'} title={'Sign Up and Start Create Your Taks!'} />
               <TitleSign
