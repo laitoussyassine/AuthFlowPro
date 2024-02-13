@@ -2,7 +2,8 @@ import  { config }  from 'dotenv';
 config()
 import express from 'express';
 import Database from './config/db.config.js';
-import userRoutes from './routes/user.route.js'
+import userRoutes from './routes/user.route.js';
+import cookieParser from "cookie-parser";
 
 
 const app = express();
@@ -13,6 +14,7 @@ const db = new Database(process.env.MONGO_URI,process.env.DB_NAME);
 db.connectionDb();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/auth', userRoutes);
 
