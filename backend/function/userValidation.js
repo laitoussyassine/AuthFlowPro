@@ -1,18 +1,14 @@
-const Joi = require('joi');
-function validateUser(user) {
-    const schema = Joi.object({
-      username: Joi.string().required(),
+import  Joi from 'joi';
+
+const validateUserSchema = Joi.object({
+      username: Joi.string().alphanum().max(10),
       email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    });
-  
-    return schema.validate(user);
-  }
+      password: Joi.string().alphanum().min(5).required(),
+      role: Joi.string().required()
+  });
 
   const validateUserCreation = (data) => {
-    return validateUser.validate(data, { abortEarly: false });
+    return validateUserSchema.validate(data, { abortEarly: false });
   }
   
-  module.exports = {
-    validateUserCreation,
-  };
+  export default validateUserCreation;
