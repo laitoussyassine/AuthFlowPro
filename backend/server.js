@@ -4,10 +4,12 @@ import express from 'express';
 import Database from './config/db.config.js';
 import userRoutes from './routes/user.route.js';
 import cookieParser from "cookie-parser";
+import cors from 'cors'
 
 
 const app = express();
 
+app.use(cors())
 
 // connect to db
 const db = new Database(process.env.MONGO_URI,process.env.DB_NAME);
