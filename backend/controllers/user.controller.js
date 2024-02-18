@@ -75,20 +75,31 @@ const login = async (req,res) => {
 }
 
 // logout
-const logout = (req,res) => {
+const logout = (req, res) => {
   try {
-      res.clearCookie('accessToken');
+    const userCookies = req.cookies;  // Use req.cookies instead of res.cookies
+    if (!userCookies || !userCookies.accessToken) {
       return res.status(200).json({
-          success : true, 
-          message: "logout seccess"
-      })
+        success: true,
+        message: "User already logged out"
+      });
+    }
+
+    res.clearCookie('accessToken');
+    return res.status(200).json({
+      success: true,
+      message: "Logout success"
+    });
   } catch (err) {
-      return res.status(500).json({
-          success : false, 
-          message : error
-      })
+    return res.status(500).json({
+      success: false,
+      message: err.message || "Internal Server Error"
+    });
   }
 }
+
+
+
 
 // @desc Get User Profile
 // Route GET /api/users/Profile

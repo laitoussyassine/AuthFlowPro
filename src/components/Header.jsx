@@ -7,7 +7,7 @@ import { ModeToggle } from './ui/mode-toggle'
 
 const routes = [
     {
-        href: "/signup",
+        href: "/register",
         label: "sign Up"
     },
     {
