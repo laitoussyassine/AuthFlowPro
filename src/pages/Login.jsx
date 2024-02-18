@@ -27,7 +27,7 @@ const Login = () => {
               <SubmitButton className={"flex mx-auto w-4/5 mb-3"} title={"Sign Up"} />
             </form>
               <TitleSign className={'text-center'}  description={`D’ont have an account!`} >
-                <Link to={'/signup'} className='text-buttonBg'>Sign Up</Link>
+                <Link to={'/'} className='text-buttonBg'>Sign Up</Link>
               </TitleSign>
           </div>
         </div>

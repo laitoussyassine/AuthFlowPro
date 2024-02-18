@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import  { config }  from 'dotenv';
 config()
 import bcrypt from "bcryptjs"
+import generateToken from '../utils/generateToken.js';
 
 
 // user register
@@ -24,7 +25,7 @@ const signup = async (req, res) => {
       password: hashedPassword,
       role: "65ca14f28d6d007e34cfca2e"
     });
-
+    generateToken(res, user._id)
     await user.save();
 
     return res.status(201).send({
@@ -43,7 +44,7 @@ const signup = async (req, res) => {
 const login = async (req,res) => {
   const {email, password} = req.body;
   try {
-    const user = await User.findOne({email:email});
+    const user = await User.findOne({email});
     if (!user) {
       return res.status(401).send({
         message: "Email Not Found"
@@ -58,8 +59,7 @@ const login = async (req,res) => {
       })
     }
 
-  const token = jwt.sign({ userId: user.id }, process.env.secret_key);
-  res.cookie("accessToken", token, { maxAge: 1000 * 60 * 10, httpOnly: true });
+    generateToken(res, user._id)
 
   res.status(200).send({
     success: true,
@@ -75,26 +75,38 @@ const login = async (req,res) => {
 }
 
 // logout
-const logout = (req,res) => {
+const logout = (req, res) => {
   try {
-      res.clearCookie('accessToken');
+    const userCookies = req.cookies;  // Use req.cookies instead of res.cookies
+    if (!userCookies || !userCookies.accessToken) {
       return res.status(200).json({
-          success : true, 
-          message: "logout seccess"
-      })
+        success: true,
+        message: "User already logged out"
+      });
+    }
+
+    res.clearCookie('accessToken');
+    return res.status(200).json({
+      success: true,
+      message: "Logout success"
+    });
   } catch (err) {
-      return res.status(500).json({
-          success : false, 
-          message : error
-      })
+    return res.status(500).json({
+      success: false,
+      message: err.message || "Internal Server Error"
+    });
   }
 }
+
+
+
 
 // @desc Get User Profile
 // Route GET /api/users/Profile
 // @access Private
 
 const getUserProfile = (req, res) => {
+  console.log(req.user);
   res.status(200).json({
     message : 'User Profile'
   })
