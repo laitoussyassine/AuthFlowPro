@@ -90,9 +90,31 @@ const logout = (req,res) => {
   }
 }
 
+// @desc Get User Profile
+// Route GET /api/users/Profile
+// @access Private
+
+const getUserProfile = (req, res) => {
+  res.status(200).json({
+    message : 'User Profile'
+  })
+}
+
+// @desc Update User Profile
+// Route PUT /api/users/Profile
+// @access Private
+
+const updateUserProfile = (req, res) => {
+  res.status(200).json({
+    message : "update user profile"
+  })
+}
+
 const UserControllers = {
   signup,
   login,
-  logout
+  logout,
+  getUserProfile,
+  updateUserProfile
 };
 export default UserControllers;

@@ -3,8 +3,12 @@ import InputField from '../components/fieldsComponents/InputField.jsx';
 import LabelField from '../components/fieldsComponents/LabelField.jsx';
 import SubmitButton from '../components/fieldsComponents/SubmitButton.jsx';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
   return (
     <>
        <div className='flex flex-col items-center lg:my-20 mt-6 '>
@@ -16,9 +20,9 @@ const Login = () => {
               description={'Welcome back, please enter your details'} />
               <div className='flex flex-col gap-2 mb-5'>
                 <LabelField className={''} title={"Email"} />
-                <InputField type={"Email"} className={''} placeholder={"you@company.com"} />
+                <InputField value={email} setValue={setEmail} type={"Email"} className={''} placeholder={"you@company.com"} />
                 <LabelField className={''} title={"Password"} />
-                <InputField type={"password"} className={''} placeholder={"password"} />
+                <InputField value={password} setValue={setPassword} type={"password"} className={''} placeholder={"password"} />
               </div>
               <SubmitButton className={"flex mx-auto w-4/5 mb-3"} title={"Sign Up"} />
             </form>
