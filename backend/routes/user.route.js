@@ -9,11 +9,13 @@ import loginValidateCheck from "../middlewares/loginValidateCheck.js"
 
 
 // Register USER
-router.post('/register',userExistingCheck, UserControllers.signup);
+router.post('/',userExistingCheck, UserControllers.signup);
 // Login User
 router.post('/login', loginValidateCheck,UserControllers.login);
 // logout user
 router.get('/logout',UserControllers.logout);
+// user profile
+router.route('/profile').get(UserControllers.getUserProfile).put(UserControllers.updateUserProfile)
 
 router.post('/role', (req,res) => {
     Role.create({
