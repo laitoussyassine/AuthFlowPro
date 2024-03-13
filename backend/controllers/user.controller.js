@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import  { config }  from 'dotenv';
 config()
 import bcrypt from "bcryptjs"
-import generateToken from '../utils/generateToken.js';
 
 
 // user register
@@ -14,8 +13,7 @@ const signup = async (req, res) => {
     const validationUser = validateUserCreation(req.body);
     if (validationUser.error) {
       return res.status(400).send({
-        message: "Validation failed to create user",
-        error: validationUser.error.details
+        message: validationUser.error.message
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,13 +21,13 @@ const signup = async (req, res) => {
       username: username,
       email: email,
       password: hashedPassword,
-      role: "65ca14f28d6d007e34cfca2e"
     });
-    generateToken(res, user._id)
+   
     await user.save();
 
     return res.status(201).send({
-      message: "User created with success"
+      message: "User created with success",
+      
     });
   } catch (error) {
     console.log(error);
@@ -44,7 +42,13 @@ const signup = async (req, res) => {
 const login = async (req,res) => {
   const {email, password} = req.body;
   try {
-    const user = await User.findOne({email});
+    const validationUser = validateUserCreation(req.body);
+    if (validationUser.error) {
+      return res.status(400).send({
+        error: validationUser.error.message
+      });
+    }
+    const user = await User.findOne({email}).populate({path: 'role'});
     if (!user) {
       return res.status(401).send({
         message: "Email Not Found"
@@ -59,15 +63,17 @@ const login = async (req,res) => {
       })
     }
 
-    generateToken(res, user._id)
+
+    const token = jwt.sign({ role: user.role.name, name: user.username, role: user.role, email: user.email}, process.env.secret_key);
+    res.cookie("accessToken", token, { maxAge: 1000 * 60 * 10, httpOnly: true });
 
   res.status(200).send({
-    success: true,
-    message: "User Logged In"
+    message: "User Logged In",
+    token: token
   });
 
   } catch (error) {
-    res.status(400).json({
+    res.status(400).send({
       success : false, 
       message : error
     })
