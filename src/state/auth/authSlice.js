@@ -6,7 +6,7 @@ export const register = createAsyncThunk(
   "auth/register",
     async (credenial, {rejectWithValue}) => {
       try {
-          const response = await axios.post('http://localhost:8090/api/users/register', credenial)
+          const response = await axios.post('http://localhost:8080/api/users/register', credenial)
           if (response.data) {
             return  response.data
           }
@@ -25,7 +25,7 @@ export const login = createAsyncThunk(
 
     try {
       
-      const response = await axios.post('http://localhost:8090/api/users/login', data);
+      const response = await axios.post('http://localhost:8080/api/users/login', data);
       if (response.data) {
         localStorage.setItem('jwt', JSON.stringify(response.data.token));
       }
