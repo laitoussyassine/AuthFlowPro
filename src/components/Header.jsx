@@ -4,8 +4,11 @@ import { Button } from './ui/button'
 import ProfileButton from './ui/ProfileButton'
 import { ModeToggle } from './ui/mode-toggle'
 
-
 const routes = [
+    {
+        href: "/",
+        label: "Home"
+    },
     {
         href: "/register",
         label: "sign Up"
@@ -17,7 +20,8 @@ const routes = [
 
 ]
 const Header = () => {
-    
+
+    const user = localStorage.getItem('jwt');
   return (
     <header className='sm:flex sm:justify-between py-3 px-4 border-b'>
         <Container>
@@ -28,9 +32,9 @@ const Header = () => {
                     </Link>
                 </div>
                 <nav className='flex items-center space-x-4 lg:space-x-6 hidden md:block'>
-                    {routes.map((route,i) => (
-                        <Button asChild variant="ghost" >
-                            <Link key={i} to={route.href} className="text-sm font- transition-colors">
+                    {routes.map((route,index) => (
+                        <Button key={index} asChild variant="ghost" >
+                            <Link  to={route.href} className="text-sm font- transition-colors">
                                 {route.label}
                             </Link>
                         </Button>
@@ -39,7 +43,8 @@ const Header = () => {
                 </nav>
                 <div className='flex items-center gap-3'>
                     <ModeToggle />
-                    <ProfileButton />
+                    {user ? <ProfileButton />  : null}
+                    
                 </div>
             </div>
         </Container>
