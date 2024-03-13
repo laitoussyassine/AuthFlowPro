@@ -1,13 +1,23 @@
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
-// import { Button } from '@/components/ui/button'
 import Header from './components/Header'
+// import Home from './pages/Home';
+import { ThemeProvider } from "@/components/theme-provider"
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+
 
 function App() {
 
   return (
-    <div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Header />
-    </div>
+      <Routes>
+        {/* <Route path='/' element={<Home />} /> */}
+        <Route path='/register' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
+    </ThemeProvider>
   )
 }
 
